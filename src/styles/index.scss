@@ -1,8 +1,20 @@
+// ⚠️ Este archivo se inyecta en TODOS los bloques <style lang="scss"> vía
+// `css.preprocessorOptions.scss.additionalData` en vite.config.ts.
+//
+// Por eso NO debe emitir NUNCA una sola regla CSS: solo @forward, variables,
+// mixins y funciones. Cualquier regla que se escriba aquí se duplica en cada
+// componente y, dentro de un <style scoped>, Vue la reescribe con el atributo
+// [data-v-hash], lo que la hace pisar al CSS global con la misma especificidad.
+// (Eso fue exactamente lo que rompió el centrado de `.contenedor`.)
+//
+// Todo el CSS que sí se debe emitir vive en `global.scss`, importado una única
+// vez desde `main.ts`.
+
 @forward 'colorVariables.module.scss';
 @forward 'fonts.module.scss';
+@forward 'mixins.module.scss';
 
-@use "sass:color";
-@use "sass:math";
+@use 'sass:color';
 
 @function _to-percent($value) {
   @if type-of($value) == 'number' and unit($value) == '%' {
@@ -25,10 +37,4 @@
     @return color.scale($c, $lightness: -$pct);
   }
   @return color.adjust($c, $lightness: -$pct);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
