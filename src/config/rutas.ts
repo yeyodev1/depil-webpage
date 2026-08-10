@@ -10,6 +10,17 @@ import { SEDES } from './site'
 import { ZONAS } from './zonas'
 import { GUIAS } from './guias'
 
+/**
+ * Rutas que se prerenderizan pero NO van al sitemap.
+ *
+ * `/404` genera `dist/404.html`, que Vercel sirve con estado HTTP 404 real para
+ * cualquier URL desconocida. Sin él habría que reescribir a `index.html`, que
+ * responde 200 a todo y Google lo trata como «soft 404».
+ */
+export function rutasNoIndexables(): string[] {
+  return ['/404']
+}
+
 export function rutasEstaticas(): string[] {
   return [
     '/',
