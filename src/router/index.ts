@@ -44,6 +44,9 @@ export const routes: Array<RouteRecordRaw> = [
   { path: '/blog', redirect: '/guias' },
   // Los artículos vivían en la raíz (`/depilacion-definitiva/`).
   ...SLUGS_ANTIGUOS.map((slug) => ({ path: `/${slug}`, redirect: `/guias/${slug}` })),
+  // Ruta explícita para poder prerenderizar dist/404.html; el catch-all cubre
+  // la navegación en cliente.
+  { path: '/404', name: 'NoEncontrado404', component: () => import('@/views/NotFoundView.vue') },
   {
     path: '/:pathMatch(.*)*',
     name: 'NoEncontrado',
