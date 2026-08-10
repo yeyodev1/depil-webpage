@@ -7,7 +7,20 @@
     "allowSyntheticDefaultImports": true,
     "types": ["node"],
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    // OBLIGATORIO. Sin esto `vue-tsc -b` escribe los .js compilados junto a los
+    // .ts de `include`, y Vite resuelve `./router` a `index.js` ANTES que a
+    // `index.ts`: la app se construye contra código viejo y las ediciones
+    // parecen no aplicarse. Este proyecto solo existe para typechequear.
+    "noEmit": true
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "plugins/**/*",
+    "src/config/rutas.ts",
+    "src/config/site.ts",
+    "src/config/zonas.ts",
+    "src/config/faq.ts",
+    "src/config/guias.ts"
+  ]
 }
