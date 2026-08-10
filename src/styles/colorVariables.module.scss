@@ -1,11 +1,20 @@
-// Brand colors - customize per project
-$primary: #2094D2;
-$primary-dark: #010D27;
-$primary-light: #fefefe;
-$secondary: #2BBB92;
+// Paleta Depil Ec — dorado sobre negro profundo.
+$primary: #c9a227; // dorado marca
+$primary-dark: #0b0b0d; // negro base
+$primary-light: #e8cf7a; // dorado claro (hover / brillos)
+$secondary: #6f6244; // dorado apagado para bordes
+
+$gold-gradient-from: #a8801f;
+$gold-gradient-mid: #e8cf7a;
+$gold-gradient-to: #a8801f;
+
+$surface: #131317; // superficie elevada sobre el negro
+$surface-alt: #1c1c22;
+$ink: #0b0b0d;
 
 $white: #fefefe;
 $text-light: #fefefe;
+$text-muted: #a5a5ae;
 $text-secondary: #6b7280;
 
 // Alert colors
@@ -13,7 +22,9 @@ $alert-warning: #f59e0b;
 $alert-info: #3b82f6;
 $alert-success: #10b981;
 $alert-error: #ef4444;
-$alert-warning-bg: rgba($alert-warning, 0.1);
-$alert-info-bg: rgba($alert-info, 0.1);
-$alert-success-bg: rgba($alert-success, 0.1);
-$alert-error-bg: rgba($alert-error, 0.1);
+$alert-warning-bg: rgba($alert-warning, 0.12);
+$alert-info-bg: rgba($alert-info, 0.12);
+$alert-success-bg: rgba($alert-success, 0.12);
+$alert-error-bg: rgba($alert-error, 0.12);
+
+$whatsapp: #25d366;
