@@ -1,0 +1,102 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist",
+  "framework": null,
+
+  "cleanUrls": true,
+  "trailingSlash": false,
+
+  "redirects": [
+    { "source": "/blog", "destination": "/guias", "permanent": true },
+    { "source": "/blog/:path*", "destination": "/guias", "permanent": true },
+
+    { "source": "/faq", "destination": "/preguntas-frecuentes", "permanent": true },
+    { "source": "/zonas", "destination": "/depilacion-laser", "permanent": true },
+
+    {
+      "source": "/depilacion-definitiva",
+      "destination": "/guias/depilacion-definitiva",
+      "permanent": true
+    },
+    {
+      "source": "/descubre-sus-beneficios",
+      "destination": "/guias/descubre-sus-beneficios",
+      "permanent": true
+    },
+    {
+      "source": "/cada-cuanto-tiempo-se-recomienda",
+      "destination": "/guias/cada-cuanto-tiempo-se-recomienda",
+      "permanent": true
+    },
+    {
+      "source": "/desde-que-edad-se-puede",
+      "destination": "/guias/desde-que-edad-se-puede",
+      "permanent": true
+    },
+    { "source": "/preguntas-comunes", "destination": "/guias/preguntas-comunes", "permanent": true },
+    {
+      "source": "/experiencia-con-depilacion-laser",
+      "destination": "/guias/experiencia-con-depilacion-laser",
+      "permanent": true
+    },
+    {
+      "source": "/porque-las-madres-buscamos-depilacion-laser",
+      "destination": "/guias/porque-las-madres-buscamos-depilacion-laser",
+      "permanent": true
+    },
+    {
+      "source": "/mis-historias-como-especialista",
+      "destination": "/guias/mis-historias-como-especialista",
+      "permanent": true
+    },
+    {
+      "source": "/el-corazon-en-cada-resultado",
+      "destination": "/guias/el-corazon-en-cada-resultado",
+      "permanent": true
+    },
+    {
+      "source": "/entre-el-detalle-la-ciencia-y-el-servicio-humano",
+      "destination": "/guias/entre-el-detalle-la-ciencia-y-el-servicio-humano",
+      "permanent": true
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(png|jpg|jpeg|webp|avif|svg|ico|woff2)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" }
+      ]
+    }
+  ]
+}
