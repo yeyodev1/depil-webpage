@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { SLUGS_ANTIGUOS } from '@/config/guias'
 
 export { rutasEstaticas } from '@/config/rutas'
@@ -54,16 +54,10 @@ export const routes: Array<RouteRecordRaw> = [
   },
 ]
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-  scrollBehavior(to, from, guardado) {
-    if (guardado) return guardado
-    if (to.hash) return { el: to.hash, behavior: 'smooth', top: 80 }
-    // Cambio de ruta real → arriba sin animación; el smooth se reserva para anclas.
-    if (to.path !== from.path) return { left: 0, top: 0 }
-    return { left: 0, top: 0, behavior: 'smooth' }
-  },
-})
-
-export default router
+// Este archivo NO crea el router: lo crea `ViteSSG` en `main.ts` a partir de
+// `routes`, y ahí vive también el `scrollBehavior`.
+//
+// Antes se exportaba además una instancia propia con `createRouter`. Como
+// `main.ts` importa `routes` de aquí, esa segunda instancia se construía en
+// cada arranque —con su propio `createWebHistory()` y su `scrollRestoration`—
+// sin que nadie la usara.
