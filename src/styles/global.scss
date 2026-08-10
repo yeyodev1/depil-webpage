@@ -1,27 +1,271 @@
-@use './colorVariables.module.scss' as *;
-@use './fonts.module.scss' as *;
+// Único archivo de la carpeta que emite CSS global. Se importa una sola vez
+// desde `main.ts`. Las variables y mixins llegan solos: vite.config.ts inyecta
+// `index.scss` en todos los bloques SCSS (por eso aquí no se hace @use).
 
-html, body {
-  background-color: $white;
+// ── Reset ──────────────────────────────────────────────────────────────────
+// Va aquí y NO en index.scss: si estuviera allí se duplicaría en cada
+// componente como `[data-v-hash]{margin:0;padding:0}`, pisando el margen
+// automático de `.contenedor` y descentrando todo el sitio.
+*,
+*::before,
+*::after {
   margin: 0;
-  font-family: $font-principal;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-  --bg: #{$white};
-  --text: #{$primary-dark};
-  --border: #{rgba($primary-dark, 0.08)};
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+
+  --bg: #{$ink};
+  --bg-alt: #{$surface};
+  --surface: #{$surface};
+  --surface-alt: #{$surface-alt};
+  --text: #{$text-light};
+  --text-muted: #{$text-muted};
+  --border: #{rgba($primary, 0.16)};
   --accent: #{$primary};
+  --accent-soft: #{rgba($primary, 0.12)};
+
+  --radio-sm: 0.625rem;
+  --radio-md: 1rem;
+  --radio-lg: 1.5rem;
+
+  --sombra-suave: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+  --sombra-fuerte: 0 28px 60px -28px rgba(0, 0, 0, 0.9);
+
+  --ease-suave: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-rapida: 0.22s;
+  --dur-media: 0.45s;
+  --dur-lenta: 0.8s;
+
+  --alto-header: 4.5rem;
+
+  color-scheme: dark;
 }
 
-[data-theme='dark'] {
-  --bg: #{$primary-dark};
-  --text: #{$text-light};
-  --border: #{rgba($white, 0.12)};
-  --accent: #{$primary};
+[data-theme='light'] {
+  --bg: #{$white};
+  --bg-alt: #f5f3ee;
+  --surface: #{$white};
+  --surface-alt: #f5f3ee;
+  --text: #{$primary-dark};
+  --text-muted: #{$text-secondary};
+  --border: #{rgba($primary-dark, 0.1)};
+  --accent-soft: #{rgba($primary, 0.14)};
+
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--alto-header);
+  -webkit-text-size-adjust: 100%;
+}
+
+@include sin-movimiento {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
+  min-height: 100dvh;
   background-color: var(--bg);
   color: var(--text);
+  font-family: $font-principal;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img,
+picture,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  @include foco-visible;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  @include foco-visible;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  @include foco-visible;
+}
+
+::selection {
+  background: rgba($primary, 0.32);
+  color: $white;
+}
+
+// ── Scrollbar ──────────────────────────────────────────────────────────────
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba($primary, 0.35);
+  border-radius: 99px;
+
+  &:hover {
+    background: rgba($primary, 0.6);
+  }
+}
+
+// ── Utilidades compartidas ─────────────────────────────────────────────────
+.contenedor {
+  @include contenedor;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.texto-dorado {
+  @include texto-dorado;
+}
+
+// ── Transiciones reutilizables (<Transition name="...">) ───────────────────
+.fundido-enter-active,
+.fundido-leave-active {
+  transition: opacity var(--dur-media) var(--ease-suave);
+}
+
+.fundido-enter-from,
+.fundido-leave-to {
+  opacity: 0;
+}
+
+.subir-enter-active,
+.subir-leave-active {
+  transition:
+    opacity var(--dur-media) var(--ease-suave),
+    transform var(--dur-media) var(--ease-suave);
+}
+
+.subir-enter-from,
+.subir-leave-to {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.zoom-enter-active {
+  transition:
+    opacity var(--dur-media) var(--ease-suave),
+    transform var(--dur-media) var(--ease-suave);
+}
+
+.zoom-leave-active {
+  transition:
+    opacity var(--dur-rapida) ease,
+    transform var(--dur-rapida) ease;
+}
+
+.zoom-enter-from,
+.zoom-leave-to {
+  opacity: 0;
+  transform: scale(0.94) translateY(12px);
+}
+
+.lista-move,
+.lista-enter-active,
+.lista-leave-active {
+  transition: all var(--dur-media) var(--ease-suave);
+}
+
+.lista-enter-from,
+.lista-leave-to {
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.lista-leave-active {
+  position: absolute;
+}
+
+// ── Keyframes ──────────────────────────────────────────────────────────────
+@keyframes brillo-dorado {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes pulso-suave {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
