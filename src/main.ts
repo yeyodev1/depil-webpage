@@ -1,4 +1,5 @@
 import { ViteSSG } from 'vite-ssg'
+import { START_LOCATION } from 'vue-router'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import { routes } from './router'
@@ -18,7 +19,15 @@ export const createApp = ViteSSG(
   App,
   {
     routes,
-    scrollBehavior(to, _from, guardado) {
+    scrollBehavior(to, from, guardado) {
+      // La navegación inicial NO debe tocar el scroll.
+      //
+      // El HTML está prerenderizado, así que se ve y se puede desplazar desde
+      // el primer instante. Si el usuario empieza a bajar y el router resuelve
+      // su navegación inicial después (al terminar de hidratar), un
+      // `{ top: 0 }` aquí lo devolvía de golpe al inicio de la página.
+      if (from === START_LOCATION) return false
+
       if (guardado) return guardado
       if (to.hash) return { el: to.hash, behavior: 'smooth', top: 80 }
       return { left: 0, top: 0 }
