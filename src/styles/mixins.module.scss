@@ -1,0 +1,153 @@
+@use './colorVariables.module.scss' as *;
+
+// ── Breakpoints ────────────────────────────────────────────────────────────
+$bp-xs: 400px;
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+$bp-2xl: 1536px;
+
+/// Mobile-first: aplica desde el breakpoint hacia arriba.
+@mixin desde($bp) {
+  @media (min-width: $bp) {
+    @content;
+  }
+}
+
+/// Aplica hasta justo antes del breakpoint.
+@mixin hasta($bp) {
+  @media (max-width: ($bp - 1px)) {
+    @content;
+  }
+}
+
+@mixin movil {
+  @include hasta($bp-md) {
+    @content;
+  }
+}
+
+@mixin escritorio {
+  @include desde($bp-md) {
+    @content;
+  }
+}
+
+/// Respeta la preferencia de movimiento reducido del sistema.
+@mixin sin-movimiento {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+@mixin puede-hover {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+// ── Layout ─────────────────────────────────────────────────────────────────
+$contenedor-max: 1240px;
+
+@mixin contenedor($max: $contenedor-max) {
+  width: 100%;
+  max-width: $max;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @include desde($bp-md) {
+    padding-inline: 2rem;
+  }
+
+  @include desde($bp-xl) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@mixin seccion($py-movil: 4rem, $py-escritorio: 7rem) {
+  position: relative;
+  padding-block: $py-movil;
+
+  @include desde($bp-md) {
+    padding-block: $py-escritorio;
+  }
+}
+
+// ── Superficies y efectos ──────────────────────────────────────────────────
+@mixin texto-dorado {
+  background: linear-gradient(
+    100deg,
+    $gold-gradient-from 0%,
+    $gold-gradient-mid 45%,
+    $gold-gradient-to 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@mixin borde-dorado($opacidad: 0.35) {
+  border: 1px solid rgba($primary, $opacidad);
+}
+
+@mixin vidrio($alpha: 0.06, $blur: 14px) {
+  background: rgba($white, $alpha);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin tarjeta {
+  position: relative;
+  border-radius: 1.25rem;
+  background: $surface;
+  @include borde-dorado(0.16);
+  overflow: hidden;
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.45s ease;
+
+  @include puede-hover {
+    &:hover {
+      transform: translateY(-6px);
+      border-color: rgba($primary, 0.5);
+      box-shadow: 0 22px 48px -22px rgba($primary, 0.45);
+    }
+  }
+
+  @include sin-movimiento {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+@mixin foco-visible {
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+}
+
+/// Trunca a N líneas.
+@mixin lineas($n) {
+  display: -webkit-box;
+  -webkit-line-clamp: $n;
+  line-clamp: $n;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/// Oculta la scrollbar manteniendo el scroll.
+@mixin scroll-oculto {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
