@@ -2,7 +2,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { rutasEstaticas } from './src/config/rutas'
+import { rutasEstaticas, rutasNoIndexables } from './src/config/rutas'
 import { seoArchivos } from './plugins/seo-archivos'
 
 export default defineConfig({
@@ -28,7 +28,8 @@ export default defineConfig({
     script: 'async',
     formatting: 'minify',
     // Las rutas con :slug no se pueden descubrir solas.
-    includedRoutes: () => rutasEstaticas(),
+    //  se prerenderiza pero queda fuera del sitemap.
+    includedRoutes: () => [...rutasEstaticas(), ...rutasNoIndexables()],
     // GSAP/ScrollTrigger tocan window al importarse: se mockean en Node.
     mock: true,
   },
