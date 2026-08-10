@@ -11,3 +11,5 @@ plugins/**/*.js
 node-compile-cache
 .vite-ssg-temp
 /*.js
+.vercel
+.env*
