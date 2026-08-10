@@ -1,9 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-:root {
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-inter: 'Inter', sans-serif;
-}
+// Solo variables: este archivo se inyecta en todos los componentes.
+// La carga de la fuente vive en el <link> de index.html y las custom
+// properties en global.scss. Ver la nota de index.scss.
 
 $font-principal: 'Montserrat', sans-serif;
 $font-secondary: 'Inter', sans-serif;
