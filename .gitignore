@@ -2,3 +2,12 @@ node_modules
 dist
 .env
 *.local
+
+# Salida accidental de vue-tsc junto a los fuentes (ver tsconfig.node.json)
+src/**/*.js
+plugins/**/*.js
+
+# Caché de compilación de Node y temporal de vite-ssg
+node-compile-cache
+.vite-ssg-temp
+/*.js
