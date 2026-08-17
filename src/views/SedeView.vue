@@ -7,10 +7,9 @@ import CldImage from '@/components/ui/CldImage.vue'
 import PageHero from '@/components/ui/PageHero.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import { useSeo } from '@/composables/useSeo'
-import { faqLd, migasLd, sedeLd } from '@/config/seo'
+import { migasLd, sedeLd } from '@/config/seo'
 import { SEDES, SITE, whatsappUrl } from '@/config/site'
 import { ZONAS } from '@/config/zonas'
-import { FAQ } from '@/config/faq'
 
 /** Códigos ISO 3166-2:EC de las provincias donde hay sede. */
 const REGION_ISO: Record<string, string> = {
@@ -37,7 +36,9 @@ const mapsUrl = computed(
 
 useSeo(() => ({
   titulo: `Depilación Láser en ${sede.value.ciudad} | ${sede.value.nombre}`,
-  descripcion: `${sede.value.nombre}: depilación láser definitiva Tri-Laser & 4D en ${sede.value.ciudad}. ${sede.value.direccion}. Atención de lunes a sábado de 09H00 a 19H00. Agenda tu valoración.`,
+  // ≤160 caracteres: keyword + ciudad al inicio; la dirección completa vive en
+  // el cuerpo y en el JSON-LD, no cabe en la meta sin truncarse.
+  descripcion: `Depilación láser Tri-Laser & 4D en ${sede.value.ciudad}: ${sede.value.nombre}. Lunes a sábado de 09H00 a 19H00. Agenda tu valoración gratuita.`,
   ruta: `/sedes/${sede.value.id}`,
   geo: {
     lat: sede.value.geo.lat,
@@ -45,11 +46,8 @@ useSeo(() => ({
     lugar: `${sede.value.nombre}, ${sede.value.ciudad}`,
     region: REGION_ISO[sede.value.ciudad] ?? 'P',
   },
-  jsonLd: [
-    sedeLd(sede.value.id) ?? {},
-    migasLd(migas.value),
-    faqLd(FAQ.slice(0, 4).map((f) => ({ pregunta: f.pregunta, respuesta: f.respuesta }))),
-  ],
+  // Sin faqLd: el FAQPage vive solo en /preguntas-frecuentes.
+  jsonLd: [sedeLd(sede.value.id) ?? {}, migasLd(migas.value)],
 }))
 </script>
 
