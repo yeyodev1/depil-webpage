@@ -30,7 +30,10 @@ export function useSeo(fabrica: () => MetaSeo) {
           : 'noindex, follow',
       },
 
-      { property: 'og:type', content: 'website' },
+      { property: 'og:type', content: m.value.articulo ? 'article' : 'website' },
+      ...(m.value.articulo
+        ? [{ property: 'article:published_time', content: m.value.articulo.publicada }]
+        : []),
       { property: 'og:locale', content: 'es_EC' },
       { property: 'og:site_name', content: 'Depil Ec' },
       { property: 'og:title', content: m.value.titulo },
