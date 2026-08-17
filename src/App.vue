@@ -48,13 +48,15 @@ watch(
 
 <template>
   <div class="app-container">
+    <a class="salto-contenido" href="#contenido">Saltar al contenido</a>
+
     <div class="barra-progreso" :class="{ 'barra-progreso--activa': navegando }" aria-hidden="true">
       <span />
     </div>
 
     <AppHeader />
 
-    <main class="app-main">
+    <main id="contenido" class="app-main">
       <RouterView v-slot="{ Component, route }">
         <!--
           `mode="out-in"` + una sola raíz por vista (`.pagina`). Si una vista
@@ -82,6 +84,24 @@ watch(
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+// Skip link: invisible hasta recibir foco con teclado. Por encima del header (960).
+.salto-contenido {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 970;
+  padding: 0.6rem 1rem;
+  background: $primary;
+  color: $ink;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+
+  &:focus-visible {
+    top: 1rem;
+  }
 }
 
 .app-main {
