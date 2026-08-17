@@ -5,6 +5,7 @@ import { SEDES, SITE } from '../src/config/site'
 import { ZONAS } from '../src/config/zonas'
 import { FAQ } from '../src/config/faq'
 import { GUIAS } from '../src/config/guias'
+import { PROMOCIONES } from '../src/config/testimonios'
 import { rutasEstaticas } from '../src/config/rutas'
 
 const DOMINIO = 'https://depil.com.ec'
@@ -84,6 +85,7 @@ function llms(): string {
   const sedes = SEDES.map((s) => `- [${s.nombre}](${DOMINIO}/sedes/${s.id}): ${s.direccion}, ${s.ciudad}, Ecuador.`).join('\n')
   const faq = FAQ.map((f) => `### ${f.pregunta}\n${f.respuesta}`).join('\n\n')
   const guias = GUIAS.map((g) => `- [${g.titulo}](${DOMINIO}/guias/${g.slug}): ${g.descripcion}`).join('\n')
+  const promos = PROMOCIONES.map((p) => `- ${p.alt}`).join('\n')
   const horario = SITE.horarios.map((h) => `${h.dias}: ${h.horas}`).join(' · ')
 
   return `# Depil Ec
@@ -123,6 +125,13 @@ ${zonas}
 ## Preguntas frecuentes
 
 ${faq}
+
+## Promociones vigentes
+Más detalle en ${DOMINIO}/promociones. Los precios pueden variar; confirmar por WhatsApp.
+${promos}
+
+## Resultados
+Fotos reales de antes y después por zona: ${DOMINIO}/resultados
 
 ## Guías
 ${guias}
