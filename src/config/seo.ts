@@ -26,6 +26,8 @@ export interface MetaSeo {
   jsonLd?: Record<string, unknown>[]
   /** Geoposición de la página; emite `geo.position` e `ICBM`. */
   geo?: { lat: number; lng: number; lugar: string; region: string }
+  /** Si la página es editorial (guías): emite `og:type=article` y `article:published_time`. */
+  articulo?: { publicada: string }
 }
 
 const IMAGEN_DEFECTO = cldUrl(SITE.portada, { ancho: 1200, alto: 630, recorte: 'fill' })
@@ -43,6 +45,15 @@ export const NEGOCIO = {
   url: DOMINIO,
   telephone: SITE.telefonoRaw,
   email: SITE.email,
+  // LocalBusiness exige address; sin ella Search Console la reporta como faltante.
+  // Se usa la sede principal (Quito); cada sede emite la suya en `sedeLd`.
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Edificio Gaia, piso 7 oficina 70. Av. Eloy Alfaro y Mariana de Jesús',
+    addressLocality: 'Quito',
+    addressRegion: 'Pichincha',
+    addressCountry: 'EC',
+  },
   logo: cldUrl(SITE.logoDorado, { ancho: 512, recorte: 'fit' }),
   image: IMAGEN_DEFECTO,
   priceRange: '$$',
@@ -108,6 +119,7 @@ export function sedeLd(sedeId: string): Record<string, unknown> | null {
       addressLocality: sede.ciudad,
       addressRegion: REGION_POR_CIUDAD[sede.ciudad] ?? 'Ecuador',
       addressCountry: 'EC',
+      ...(sede.postal ? { postalCode: sede.postal } : {}),
     },
     geo: {
       '@type': 'GeoCoordinates',
@@ -181,10 +193,16 @@ export function faqLd(
   }
 }
 
+/**
+ * Reseñas como nodo que se fusiona con la entidad principal vía `@id`, sin
+ * re-declarar el negocio: dos bloques con la misma entidad completa confunden a
+ * Google. Ojo: son reseñas del propio sitio («self-serving»), Google no las
+ * muestra como estrellas; se emiten como señal para motores generativos.
+ */
 export function resenasLd(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
-    ...NEGOCIO,
+    '@type': NEGOCIO['@type'],
     '@id': `${DOMINIO}/#negocio`,
     aggregateRating: {
       '@type': 'AggregateRating',
@@ -216,8 +234,9 @@ export function migasLd(items: { nombre: string; ruta: string }[]): Record<strin
 
 export const SEO_DEFECTO: MetaSeo = {
   titulo: 'Depil Ec | Depilación Láser Definitiva Tri-Laser & 4D en Ecuador',
+  // ≤160 caracteres: keyword y ciudades al inicio para que no se trunque en SERP.
   descripcion:
-    'Depilación láser definitiva con tecnología Tri-Laser & 4D aprobada por la FDA. Segura, indolora y efectiva en todo tipo de piel. Sedes en Quito, Guayaquil, Samborondón, Ceibos y Manta.',
+    'Depilación láser definitiva Tri-Laser & 4D aprobada por la FDA en Quito, Guayaquil, Samborondón, Ceibos y Manta. Segura e indolora en todo tipo de piel.',
   ruta: '/',
   imagen: IMAGEN_DEFECTO,
   indexable: true,
