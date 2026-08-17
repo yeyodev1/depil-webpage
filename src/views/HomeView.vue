@@ -9,11 +9,13 @@ import SedesSection from '@/components/sections/SedesSection.vue'
 import TestimoniosSection from '@/components/sections/TestimoniosSection.vue'
 import ZonasSection from '@/components/sections/ZonasSection.vue'
 import { useSeo } from '@/composables/useSeo'
-import { faqLd, organizacionLd, resenasLd, serviciosLd, sitioLd, SEO_DEFECTO } from '@/config/seo'
+import { organizacionLd, resenasLd, serviciosLd, sitioLd, SEO_DEFECTO } from '@/config/seo'
 
 useSeo(() => ({
   ...SEO_DEFECTO,
-  jsonLd: [organizacionLd(), sitioLd(), serviciosLd(), faqLd(), resenasLd()],
+  // Sin faqLd: el FAQPage vive solo en /preguntas-frecuentes — el mismo markup
+  // repetido en varias URLs diluye el rich result (la sección visible se queda).
+  jsonLd: [organizacionLd(), sitioLd(), serviciosLd(), resenasLd()],
 }))
 </script>
 
