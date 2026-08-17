@@ -7,10 +7,9 @@ import CldImage from '@/components/ui/CldImage.vue'
 import PageHero from '@/components/ui/PageHero.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import { useSeo } from '@/composables/useSeo'
-import { faqLd, migasLd, zonaLd } from '@/config/seo'
+import { migasLd, zonaLd } from '@/config/seo'
 import { SEDES, whatsappUrl } from '@/config/site'
 import { ZONAS } from '@/config/zonas'
-import { FAQ } from '@/config/faq'
 
 const route = useRoute()
 const zona = computed(() => ZONAS.find((z) => z.id === route.params.slug) ?? ZONAS[0]!)
@@ -26,14 +25,13 @@ const migas = computed(() => [
 
 useSeo(() => ({
   titulo: `Depilación Láser ${zona.value.nombre} en Ecuador | Depil Ec`,
-  descripcion: `${zona.value.descripcion} Tecnología Tri-Laser & 4D certificada por la FDA: indolora, segura en todo tipo de piel y con resultados desde la primera sesión. Sedes en Quito, Guayaquil, Samborondón, Ceibos y Manta.`,
+  // ≤160 caracteres, keyword y ciudades al inicio; la descripción larga de la
+  // zona vive en el cuerpo de la página, no en la meta.
+  descripcion: `Depilación láser definitiva de ${zona.value.nombre.toLowerCase()} con Tri-Laser & 4D en Quito, Guayaquil, Samborondón, Ceibos y Manta. Agenda tu valoración gratuita.`,
   ruta: `/depilacion-laser/${zona.value.id}`,
   imagen: undefined,
-  jsonLd: [
-    zonaLd(zona.value),
-    migasLd(migas.value),
-    faqLd(FAQ.slice(0, 5).map((f) => ({ pregunta: f.pregunta, respuesta: f.respuesta }))),
-  ],
+  // Sin faqLd: el FAQPage vive solo en /preguntas-frecuentes.
+  jsonLd: [zonaLd(zona.value), migasLd(migas.value)],
 }))
 
 const PASOS = [
