@@ -12,6 +12,15 @@ import { whatsappUrl } from '@/config/site'
 
 const filtro = ref<CategoriaGuia | 'Todas'>('Todas')
 
+/** Fecha visible en cada tarjeta (señal E-E-A-T): «19 feb 2025». */
+function fechaLegible(fecha: string): string {
+  return new Date(`${fecha}T12:00:00`).toLocaleDateString('es-EC', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
 const visibles = computed(() =>
   filtro.value === 'Todas' ? GUIAS : GUIAS.filter((g) => g.categoria === filtro.value),
 )
@@ -85,6 +94,7 @@ useSeo(() => ({
               </RouterLink>
               <div class="tarjeta__cuerpo">
                 <span class="tarjeta__cat">{{ g.categoria }}</span>
+                <time class="tarjeta__fecha" :datetime="g.fecha">{{ fechaLegible(g.fecha) }}</time>
                 <h2><RouterLink :to="`/guias/${g.slug}`">{{ g.titulo }}</RouterLink></h2>
                 <p>{{ g.descripcion }}</p>
                 <RouterLink class="tarjeta__link" :to="`/guias/${g.slug}`">
@@ -241,6 +251,11 @@ useSeo(() => ({
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+  }
+
+  &__fecha {
+    font-size: 0.75rem;
+    color: var(--text-muted, #{$text-muted});
   }
 
   &__link {
