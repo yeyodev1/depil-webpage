@@ -8,6 +8,8 @@ export interface Sede {
   nombre: string
   ciudad: string
   direccion: string
+  /** Código postal, separado de `direccion` para emitirse como `postalCode` en el JSON-LD. */
+  postal?: string
   imagen: string
   mapsQuery: string
   /**
@@ -88,7 +90,8 @@ export const SEDES: [Sede, ...Sede[]] = [
     id: 'guayaquil',
     nombre: 'Depil Guayaquil',
     ciudad: 'Guayaquil',
-    direccion: 'Edificio Trade Building, Joaquín José Orrantia González y Guayaquil 090513',
+    direccion: 'Edificio Trade Building, Joaquín José Orrantia González y Guayaquil',
+    postal: '090513',
     imagen: 'depil/sedes/guayaquil',
     mapsQuery: 'Trade Building Joaquin Jose Orrantia Guayaquil',
     geo: { lat: -2.154974, lng: -79.890233, precision: 'edificio' },
@@ -97,7 +100,8 @@ export const SEDES: [Sede, ...Sede[]] = [
     id: 'samborondon',
     nombre: 'Depil Samborondón',
     ciudad: 'Samborondón',
-    direccion: 'Los Arcos, La Plaza 1. Samborondón 092301',
+    direccion: 'Los Arcos, La Plaza 1. Samborondón',
+    postal: '092301',
     imagen: 'depil/sedes/samborondon',
     mapsQuery: 'Los Arcos La Plaza 1 Samborondon',
     geo: { lat: -2.140993, lng: -79.865974, precision: 'via' },
