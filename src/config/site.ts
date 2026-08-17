@@ -38,7 +38,7 @@ export interface EnlaceSocial {
 export const WHATSAPP_NUMERO = '593989279945'
 
 export const WHATSAPP_MENSAJE_DEFECTO =
-  'Hola, vengo de tu sitio web 😁, quisiera hablar con una especialista sobre depilación láser'
+  'Hola, vengo desde el sitio web 💻\nMe gustaría contactarme con una especialista en depilación láser.'
 
 /** Construye un link de WhatsApp con mensaje pre-cargado. */
 export function whatsappUrl(mensaje: string = WHATSAPP_MENSAJE_DEFECTO): string {
