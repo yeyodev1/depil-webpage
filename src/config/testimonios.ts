@@ -96,8 +96,37 @@ export interface Promocion {
   alt: string
 }
 
-export const PROMOCIONES: Promocion[] = Array.from({ length: 6 }, (_, i) => ({
-  id: `promo-${i + 1}`,
-  imagen: `depil/promos/promo-${i + 1}`,
-  alt: `Promoción Depil Ec ${i + 1}`,
-}))
+// El alt describe la oferta real del arte (precio incluido): es lo único que
+// leen los lectores de pantalla y los buscadores, porque el texto vive en el bitmap.
+export const PROMOCIONES: Promocion[] = [
+  {
+    id: 'promo-1',
+    imagen: 'depil/promos/promo-1',
+    alt: 'Promoción 2x1 en depilación láser definitiva Tri-Laser & 4D: adiós al vello no deseado para siempre',
+  },
+  {
+    id: 'promo-2',
+    imagen: 'depil/promos/promo-2',
+    alt: 'Promoción 2x1 axilas + bigote gratis: $24.99 por sesión, paquete de 8 sesiones $189.99',
+  },
+  {
+    id: 'promo-3',
+    imagen: 'depil/promos/promo-3',
+    alt: 'Promoción 2x1 bikini brasilero + axilas gratis: $39.99 por sesión, paquete de 8 sesiones $289.99',
+  },
+  {
+    id: 'promo-4',
+    imagen: 'depil/promos/promo-4',
+    alt: 'Promoción 2x1 media pierna + axilas gratis: $44.99 por sesión, paquete de 8 sesiones $329.99',
+  },
+  {
+    id: 'promo-5',
+    imagen: 'depil/promos/promo-5',
+    alt: 'Promoción 2x1 pierna completa + axilas gratis: $69.99 por sesión, paquete de 8 sesiones $499.99',
+  },
+  {
+    id: 'promo-6',
+    imagen: 'depil/promos/promo-6',
+    alt: 'Sin comisiones por pago con tarjeta de crédito: Visa, Mastercard, Diners Club, Discover, American Express y PayPhone',
+  },
+]
