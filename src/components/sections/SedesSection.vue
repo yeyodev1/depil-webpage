@@ -42,6 +42,7 @@ const mapsUrl = computed(
               <button
                 type="button"
                 :class="{ 'is-activa': activa === sede.id }"
+                :aria-pressed="activa === sede.id"
                 @click="activa = sede.id"
               >
                 <i class="fa-solid fa-location-dot" aria-hidden="true" />
