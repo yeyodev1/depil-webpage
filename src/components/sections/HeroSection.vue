@@ -3,14 +3,20 @@
 import { onMounted, ref } from 'vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import CldImage from '@/components/ui/CldImage.vue'
-import { cldUrl } from '@/composables/useCloudinary'
+import { cldSrcset, cldUrl } from '@/composables/useCloudinary'
 import { gsap, SIN_MOVIMIENTO, BREAKPOINT_DESKTOP } from '@/composables/useScrollReveal'
 import { SITE, whatsappUrl } from '@/config/site'
 
 const raiz = ref<HTMLElement | null>(null)
 const fondo = ref<HTMLElement | null>(null)
 
+// El hero es el recurso LCP: con srcset el móvil baja ~12 KB en vez de 68 KB.
 const fondoUrl = cldUrl(SITE.portada, { ancho: 1920, recorte: 'fill', gravedad: 'auto' })
+const fondoSrcset = cldSrcset(
+  SITE.portada,
+  { recorte: 'fill', gravedad: 'auto' },
+  [640, 960, 1280, 1600, 1920],
+)
 
 onMounted(() => {
   const ctx = gsap.context(() => {
@@ -47,7 +53,7 @@ onMounted(() => {
 <template>
   <section id="inicio" ref="raiz" class="hero">
     <div ref="fondo" class="hero__fondo" data-hero-fondo aria-hidden="true">
-      <img :src="fondoUrl" alt="" fetchpriority="high" />
+      <img :src="fondoUrl" :srcset="fondoSrcset" sizes="100vw" alt="" fetchpriority="high" />
     </div>
     <div class="hero__velo" aria-hidden="true" />
 
