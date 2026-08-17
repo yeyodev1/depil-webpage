@@ -20,8 +20,8 @@ import CldImage from '@/components/ui/CldImage.vue'
 import PageHero from '@/components/ui/PageHero.vue'
 import { useSeo } from '@/composables/useSeo'
 import { cldUrl } from '@/composables/useCloudinary'
-import { DOMINIO, faqLd, migasLd, url } from '@/config/seo'
-import { GUIAS, minutosLectura, preguntasDeGuia, type BloqueGuia } from '@/config/guias'
+import { DOMINIO, migasLd, url } from '@/config/seo'
+import { GUIAS, minutosLectura, type BloqueGuia } from '@/config/guias'
 import { ZONAS } from '@/config/zonas'
 import { whatsappUrl } from '@/config/site'
 
@@ -77,12 +77,12 @@ const portada = computed(() =>
 )
 
 useSeo(() => {
-  const preguntas = preguntasDeGuia(guia.value)
   return {
     titulo: `${guia.value.titulo} | Depil Ec`,
     descripcion: guia.value.descripcion,
     ruta: `/guias/${guia.value.slug}`,
     imagen: portada.value,
+    articulo: { publicada: guia.value.fecha },
     jsonLd: [
       {
         '@context': 'https://schema.org',
@@ -104,11 +104,21 @@ useSeo(() => {
           url: url(`/depilacion-laser/${z.id}`),
         })),
       },
-      ...(preguntas.length ? [faqLd(preguntas)] : []),
+      // Sin faqLd: un FAQPage de 1-2 preguntas aporta poco y compite con el de
+      // /preguntas-frecuentes; las Q&A quedan dentro del Article.
       migasLd(migas.value),
     ],
   }
 })
+
+/** Fecha visible (señal E-E-A-T): «19 de febrero de 2025». */
+const fechaLegible = computed(() =>
+  new Date(`${guia.value.fecha}T12:00:00`).toLocaleDateString('es-EC', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }),
+)
 </script>
 
 <template>
@@ -124,7 +134,9 @@ useSeo(() => {
     <article class="guia">
       <div class="contenedor guia__cuerpo">
         <p class="guia__meta">
-          <i class="fa-regular fa-clock" aria-hidden="true" />
+          <i class="fa-regular fa-calendar" aria-hidden="true" />
+          <time :datetime="guia.fecha">{{ fechaLegible }}</time>
+          · <i class="fa-regular fa-clock" aria-hidden="true" />
           {{ minutosLectura(guia) }} min de lectura · {{ guia.palabras }} palabras
         </p>
 
