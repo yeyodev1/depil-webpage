@@ -33,9 +33,9 @@ export interface EnlaceSocial {
   icono: string
 }
 
-// Número único del negocio (confirmado por Diego el 2026-08-17). Debe coincidir
+// Número único del negocio (confirmado por Diego el 2026-10-29). Debe coincidir
 // con el del Google Business Profile cuando se cree.
-export const WHATSAPP_NUMERO = '593989279945'
+export const WHATSAPP_NUMERO = '593969595478'
 
 export const WHATSAPP_MENSAJE_DEFECTO =
   'Hola, vengo desde el sitio web 💻\nMe gustaría contactarme con una especialista en depilación láser.'
@@ -49,8 +49,8 @@ export const SITE = {
   nombre: 'Depil Ec',
   claim: 'La depilación definitiva',
   tecnologia: 'Tri-Laser & 4D',
-  telefono: '+(593) 989 279 945',
-  telefonoRaw: '+593989279945',
+  telefono: '+(593) 969 595 478',
+  telefonoRaw: '+593969595478',
   email: 'depil.atencioncliente@gmail.com',
   horarios: [
     { dias: 'Lunes - Viernes', horas: '09H00 - 19H00' },
